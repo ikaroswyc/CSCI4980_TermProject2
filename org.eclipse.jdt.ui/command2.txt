@@ -1,0 +1,179 @@
+// ***********************************************************
+// * @author Myoungkyu Song
+// * @date Aug 4, 2011
+// *
+// * Change the value of 'run' property to run the different.
+// ***********************************************************
+
+//[[Common parameters ]]
+@begin
+run:wfe
+inference:true
+violation-check:false
+@end
+
+//[[ spring (Annotation Metadata Invariant) ]]
+target:spring
+path:./test5/temp-spring/
+relation:className, annotationName, @Configuration
+inspection-target:./test5/temp-spring-bug/
+metadata:annotation
+//for unittesting
+pattern:ENDSWITH($CLASSNAME, $ANNOTATIONNAME)
+//------------------------------------------
+//[DBG] Auto-Generated PBSE Specification.
+//------------------------------------------
+//Class c in p
+//Where(public class *Configuration)
+//   c += @Configuration 
+//------------------------------------------
+
+//[[ mule (Annotation Metadata Invariant) ]]
+target:mule1
+path:./test5/temp-mule
+relation:METHOD_RETURNTYPE, ANNOTATION_ATTRIBUTE, NAME, @Web*
+inspection-target:./test5/temp-mule/
+metadata:annotation
+//for unittesting
+pattern:MATCH($ANNOTATION_ATTRIBUTE.NAME, $METHOD_RETURNTYPE)
+//------------------------------------------
+//[DBG] Auto-Generated PBSE Specification.
+//------------------------------------------
+//Method m in c
+//Where(@Web* public * *)
+//   @Web*.name = m.returntype
+//------------------------------------------
+
+//[[ intellij (Annotation Metadata Invariant) ]]
+target:intellij1
+path:./test5/intellij/idea-temp/
+relation:FIELD_NAME, ANNOTATION_ATTRIBUTE, NAME-OR-EMPTY, @Attribute
+inspection-target:./test5/intellij/idea-temp/
+metadata:annotation
+//for unittesting
+pattern:MATCH($ANNOTATION_ATTRIBUTE.NAME-OR-EMPTY, $FIELD_NAME)
+//------------------------------------------
+//[DBG] Auto-Generated PBSE Specification.
+//------------------------------------------
+//Field f in c
+//Where(private * *)
+//   f += @Attribute
+//   @Attribute.name = f.name 
+//------------------------------------------
+
+//[[ intellij (@XMLType XML Binding) ]]
+target:intellij2
+path:test5/intellij/idea/plugins/maven/src/
+relation:FIELD, ANNOTATION_ATTRIBUTE, propOrder, @XmlType
+inspection-target:test5/intellij/idea/plugins/maven/src/
+//Result -> MATCH($METADATA.ATTR, $FIELD)
+metadata:annotation
+pattern:MATCH($METADATA.ATTRVAL, $FIELD)
+//------------------------------------------
+//[DBG] Auto-Generated PBSE Specification.
+//------------------------------------------
+//Field f in c
+//Where(private * *)
+//   f += @XmlType
+//   @XmlType.propOrder = f.name 
+//------------------------------------------
+
+//[[ seam (@XMLType XML Binding) ]]
+target:seam
+path:/home/mksong/workspace/casestudies/casestudies4/seam-3.0.0.Final
+relation:FIELD, ANNOTATION_ATTRIBUTE, propOrder, @XmlType
+inspection-target:/home/mksong/workspace/casestudies/casestudies4/seam-3.0.0.Final
+//Result -> CONTAIN($METADATA.ATTR, $FIELD)
+metadata:annotation
+//for unit testing
+pattern:CONTAINS($METADATA.ATTRVAL, $FIELD)
+//------------------------------------------
+//[DBG] Auto-Generated PBSE Specification.
+//------------------------------------------
+//Field f in c
+//Where(private * *)
+//   f += @XmlType
+//   @XmlType.propOrder -> f.name 
+//------------------------------------------
+
+//[[ jEdit (Annotation Metadata Invariant: @Override Ommission Check) ]]
+target:jedit
+path:test5/jedit/jEdit
+relation:METHOD, ANNOTATION, @Override
+inspection-target:test5/jedit/jEdit
+//inspection-target:test5/jedit/jEdit/org/gjt/sp/jedit/textarea/debug
+enable-logfile:false
+check-type:ommission
+metadata:annotation
+// for unit testing
+pattern:CONTAINS($METHOD, $SUPERCLASS)
+//------------------------------------------
+//[DBG] Auto-Generated PBSE Specification.
+//------------------------------------------
+//Method m in c
+//Where(m == c.SuperClass.method)
+//   m += @Override
+//------------------------------------------
+
+//[[ wfe (XML Metadata Invariant) ]]
+target:wfe
+path:/home/mksong/workspace/org.eclipse.jdt.ui/test4/src
+xml-suffix:.hbm.xml
+relation:class, table, name
+relation-save:/home/mksong/workspace/org.eclipse.jdt.ui/test4/out/relationClassTable.txt
+//inspection-target:./test4/src
+metadata:xml
+// for unit-testing
+pattern:PREFIX(JBPM_) + UPPERCASE($CLASSNAME)
+//------------------------------------------
+//[DBG] Auto-Generated PBSE Specification.
+//------------------------------------------
+//Class c in p
+//Where(public class *)
+//   c += @table
+//   @table.name = (^/JBPM_/$)(s/[a-z]/[A-Z]/)(c.name) 
+//------------------------------------------
+
+//[[ adito (XML Metadata Invariant) ]]
+//[[ Struts form beans and form-bean mappings 
+//[[ Link: http://publib.boulder.ibm.com/infocenter/wsadhelp/v5r1m2/index.jsp?topic=%2Fcom.ibm.etools.struts.doc%2Ftopics%2Fcstrdoc002.html
+target:adito
+path:./test4/adito-0.9.1
+xml-suffix:.xml
+relation:form-bean, name, type
+relation-var:form-name, classname
+relation-save:./test4/out/relationNameType.txt
+inspection-target:./test4/adito-0.9.1
+metadata:xml
+main-extractor:true
+// for unit-testing
+pattern:LOWFIRSTCHAR($CLASSNAME)
+//------------------------------------------
+//[DBG] Auto-Generated PBSE Specification.
+//------------------------------------------
+//Class c in p
+//Where(public class *)
+//   c += @form
+//   @form.name = (s/^[a-z]/[A-Z]/)(c.name) 
+//------------------------------------------
+
+//[[ mule (XML Metadata Invariant) ]]
+target:mule2
+path:test5/mule-3.1.1-src/
+xml-suffix:.xml
+relation:?, class, *
+relation-var:classname, metadata
+relation-save:./test4/out/relationClassMeta.txt
+inspection-target:test5/mule-3.1.1-src/
+metadata:xml
+main-extractor:true
+// for unittesting
+pattern:MATCH($METADATA, $CLASSNAME)
+//------------------------------------------
+//[DBG] Auto-Generated PBSE Specification.
+//------------------------------------------
+//Class c in p
+//Where(public class *)
+//   c += @metadata
+//   @metadata = c.name 
+//------------------------------------------

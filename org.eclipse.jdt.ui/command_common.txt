@@ -1,0 +1,12 @@
+// *
+// * @author Myoungkyu Song
+// * Change the value of 'run' property to run the different.
+// *
+
+// *
+// * Common Parameters
+// *
+@begin
+inference:false
+eclipse-violation-check:true
+@end
